@@ -34,17 +34,24 @@ server.post('/users', (req, res) => {
 
 server.delete('/users/:id', (req, res) => {
     const ne = users.splice(req.params.id, 1)
-    console.log()
     return res.json(users)
 })
 
 server.put('/users/:id', (req, res) => {
 
-    users[req.params.id] = {
-        id: req.params.id,
-        name: req.body.name,
-        age: req.body.age
+    for (let i = 0; i < users.length; i++) {
+        // console.log(users[req.params.id].id)
+        if (i === users[req.params.id].id) {
+
+            users[i] = {
+                id: +req.params.id,
+                name: req.body.name || users[i].name,
+                age: req.body.age || users[i].age
+            }
+
+        }
     }
+
 
     return res.json(users)
 })
