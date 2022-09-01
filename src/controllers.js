@@ -1,27 +1,74 @@
-const user = {}
+exports.getAllUsers = (req, res) => {
+    return res.json(users)
+} // função para listar todos os geeks
 
-const allUser = []
+exports.getUser = (req, res) => {
+    return res.send(users[req.params.id])
+} // função para listar pelo id
 
-function createUser(name, age, gen) {
+exports.createUser = (req, res) => {
+    const { name, age, gen } = req.body
 
-    const newUser = {
-        name: name,
-        age: age,
-        gen: gen,
-        id: allUser.length
+    let actualId
+    for (let i = 0; i < users.length; i++) {
+        if (i === users.length - 1) {
+            actualId = users[i].id
+        }
     }
 
-    allUser.push(newUser)
+    users.push(
+        {
+            id: actualId + 1,
+            name,
+            age,
+            gen: "undefined"
+        }
+    )
+    return res.send()
+} // função para criar um novo usuário
+
+exports.deleteUser = (req, res) => {
+    const ne = users.splice(req.params.id, 1)
+    return res.json(users)
+} // função para deletar um usuário
+
+exports.updateUser = (req, res) => {
+    for (let i = 0; i < users.length; i++) {
+        // console.log(users[req.params.id].id)
+        if (i === users[req.params.id].id) {
+
+            users[i] = {
+                id: +req.params.id,
+                name: req.body.name || users[i].name,
+                age: req.body.age || users[i].age,
+                gen: +req.body.gen || users[i].gen
+            }
+
+        }
+    }
+
+    return res.json(users)
 }
 
-function updateUser(id, name, age, gen) {
-     if(name) {
-        
-     }
-}
+// const users = []
 
-createUser('Pedro', 18, 'm')
-createUser('Sabrina', 21, 'f')
-createUser('Vera', 31, 'f')
-
-console.log(allUser)
+let users = [
+    {
+        "id": 0,
+        "name": "Pedro",
+        "age": 29,
+        "gen": 'm'
+    },
+    {
+        "id": 1,
+        "name": "Sabrina",
+        "age": 32,
+        "gen": 'f'
+    },
+    {
+        "id": 2,
+        "name": "Vera",
+        "age": 45,
+        "gen": 'f'
+    }
+]
