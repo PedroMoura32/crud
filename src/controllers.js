@@ -6,26 +6,7 @@ exports.getUser = (req, res) => {
     return res.send(users[req.params.id])
 } // função para listar pelo id
 
-exports.createUser = (req, res) => {
-    const { name, age, gen } = req.body
-
-    let actualId
-    for (let i = 0; i < users.length; i++) {
-        if (i === users.length - 1) {
-            actualId = users[i].id
-        }
-    }
-
-    users.push(
-        {
-            id: actualId + 1,
-            name,
-            age,
-            gen: "undefined"
-        }
-    )
-    return res.send()
-} // função para criar um novo usuário
+exports.createUser = (req, res) => create(req, res) // função para criar um novo usuário
 
 exports.deleteUser = (req, res) => {
     const ne = users.splice(req.params.id, 1)
@@ -48,7 +29,7 @@ exports.updateUser = (req, res) => {
     }
 
     return res.json(users)
-}
+} // função para atualizar dados do usuário
 
 // const users = []
 
@@ -72,3 +53,28 @@ let users = [
         "gen": 'f'
     }
 ]
+
+function create(req, res) {
+    const { name, age, gen } = req.body
+
+    let actualId
+    for (let i = 0; i < users.length; i++) {
+        if (i === users.length - 1) {
+            actualId = users[i].id
+        }
+    }
+
+    users.push(
+        {
+            id: actualId + 1,
+            name,
+            age: age || 'não informado',
+            gen: gen || "não informado"
+        }
+    )
+    return res.json(users)
+}
+
+function deleteU() {
+
+}
