@@ -1,3 +1,5 @@
+const users = []
+
 exports.getAllUsers = (req, res) => {
     return res.json(users)
 } // função para listar todos os geeks
@@ -11,18 +13,10 @@ exports.createUser = (req, res) => create(req, res) // função para criar um no
 exports.deleteUser = (req, res) => {
 
     for (let i = 0; i < users.length; i++) {
-        // console.log(typeof users[i].name)
-        // console.log(typeof req.params.id)
-
         if (req.params.id == users[i].id) {
-            const ne = users.splice(i, 1)
-            console.log(users[req.params.id])
-            console.log('entrei no if ' + i)
+            users.splice(i, 1)
         }
     }
-
-
-    // const ne = users.splice(req.params.id, 1)
     return res.json(users)
 } // função para deletar um usuário
 
@@ -43,29 +37,6 @@ exports.updateUser = (req, res) => {
 
     return res.json(users)
 } // função para atualizar dados do usuário
-
-const users = []
-
-// let users = [
-//     {
-//         "id": 0,
-//         "name": "Pedro",
-//         "age": 29,
-//         "gen": 'm'
-//     },
-//     {
-//         "id": 1,
-//         "name": "Sabrina",
-//         "age": 32,
-//         "gen": 'f'
-//     },
-//     {
-//         "id": 2,
-//         "name": "Vera",
-//         "age": 45,
-//         "gen": 'f'
-//     }
-// ]
 
 function create(req, res) {
     const { name, age, gen } = req.body
@@ -98,20 +69,3 @@ function create(req, res) {
     }
     return res.json(users)
 }
-
-function deleteU() {
-
-}
-
-// function teste() {
-//     if (users === []) {
-//         users.push(
-//             {
-//                 id: actualId + 1,
-//                 name,
-//                 age: age || 'não informado',
-//                 gen: gen || "não informado"
-//             }
-//         )
-//     }
-// }
