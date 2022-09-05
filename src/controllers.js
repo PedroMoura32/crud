@@ -10,33 +10,9 @@ exports.getUser = (req, res) => {
 
 exports.createUser = (req, res) => create(req, res) // função para criar um novo usuário
 
-exports.deleteUser = (req, res) => {
+exports.deleteUser = (req, res) => deleteById(req, res) // função para deletar um usuário pelo Id
 
-    for (let i = 0; i < users.length; i++) {
-        if (req.params.id == users[i].id) {
-            users.splice(i, 1)
-        }
-    }
-    return res.json(users)
-} // função para deletar um usuário
-
-exports.updateUser = (req, res) => {
-    for (let i = 0; i < users.length; i++) {
-        // console.log(users[req.params.id].id)
-        if (i === users[req.params.id].id) {
-
-            users[i] = {
-                id: +req.params.id,
-                name: req.body.name || users[i].name,
-                age: req.body.age || users[i].age,
-                gen: +req.body.gen || users[i].gen
-            }
-
-        }
-    }
-
-    return res.json(users)
-} // função para atualizar dados do usuário
+exports.updateUser = (req, res) => update(req, res) // função para atualizar dados do usuário
 
 function create(req, res) {
     const { name, age, gen } = req.body
@@ -69,3 +45,31 @@ function create(req, res) {
     }
     return res.json(users)
 }
+
+function deleteById(req, res) {
+    for (let i = 0; i < users.length; i++) {
+        if (req.params.id == users[i].id) {
+            users.splice(i, 1)
+        }
+    }
+    return res.send(users)
+}
+
+function update(req, res) {
+    for (let i = 0; i < users.length; i++) {
+        if (i === users[req.params.id].id) {
+
+            users[i] = {
+                id: +req.params.id,
+                name: req.body.name || users[i].name,
+                age: +req.body.age || users[i].age,
+                gen: req.body.gen || users[i].gen
+            }
+
+        }
+    }
+
+    return res.json(users)
+}
+
+exports.users = users
