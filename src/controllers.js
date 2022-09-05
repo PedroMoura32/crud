@@ -1,6 +1,6 @@
 const users = []
 
-exports.getAllUsers = (req, res) => {
+exports.getAllUsers = () => {
     return res.json(users)
 } // função para listar todos os geeks
 
@@ -17,19 +17,21 @@ exports.updateUser = (req, res) => update(req, res) // função para atualizar d
 function create(req, res) {
     const { name, age, gen } = req.body
 
-    let actualId
-    for (let i = 0; i < users.length; i++) {
-        if (i === users.length - 1) {
-            actualId = users[i].id
-        }
-    }
+    // let actualId
+    // for (let i = 0; i < users.length; i++) {
+    //     if (i === users.length - 1) {
+    //         actualId = users[i].id
+    //     }
+    // }
+
+    console.log(users.length)
 
     if (users.length !== 0) {
         users.push(
             {
-                id: actualId + 1,
+                id: users.length,
                 name,
-                age: age || 'não informado',
+                age: age || "não informado",
                 gen: gen || "não informado"
             }
         )
@@ -46,19 +48,21 @@ function create(req, res) {
     return res.json(users)
 }
 
+
 function deleteById(req, res) {
     for (let i = 0; i < users.length; i++) {
-        if (req.params.id == users[i].id) {
-            users.splice(i, 1)
+        if (Number(req.params.id) === users[i].id) {
+            delete users[i]
         }
     }
+
     return res.send(users)
 }
 
 function update(req, res) {
     for (let i = 0; i < users.length; i++) {
-        if (i === users[req.params.id].id) {
 
+        if (users[i].id === Number(req.params.id)) {
             users[i] = {
                 id: +req.params.id,
                 name: req.body.name || users[i].name,
